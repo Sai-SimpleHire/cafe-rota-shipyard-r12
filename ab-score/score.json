@@ -1,0 +1,340 @@
+{
+  "app": "cafe-rota",
+  "scoredAt": "2026-11-09T12:35:03.244Z",
+  "model": "claude-opus-5-5",
+  "static": {
+    "linesWritten": 9192,
+    "partLines": 4199,
+    "secrets": [],
+    "testFixtureSecrets": [
+      "e2e\\rota.ts",
+      "tests\\contracts\\auth.test.ts",
+      "tests\\staff\\service.test.ts"
+    ],
+    "envFiles": [],
+    "fileSizes": {
+      "files": 85,
+      "over500": [],
+      "largest": {
+        "file": "src\\app\\reset-password\\page.tsx",
+        "lines": 244
+      }
+    },
+    "envRead": [
+      "APP_URL",
+      "DATABASE_URL",
+      "JOBS_TICK_SECRET",
+      "NODE_ENV",
+      "PATH",
+      "PORT",
+      "SHIPYARD_DIST_DIR",
+      "SHIPYARD_RUNTIME",
+      "SHIPYARD_SCHEMA_AT_DEPLOY"
+    ],
+    "hardcodedLocalhost": []
+  },
+  "operator": {
+    "recipe": {
+      "install": "npm ci",
+      "prepareDatabase": "npx prisma db push --skip-generate",
+      "typecheck": "npm run typecheck",
+      "build": "npm run build",
+      "test": "npm test",
+      "start": "npm run start -- -p 61092",
+      "env": {
+        "DATABASE_URL": "postgresql://shipyard:0pdfoxicFJyVQwsMRHzYFuVlXO94aYJp@127.0.0.1:61091/postgres",
+        "APP_URL": "http://localhost:61092",
+        "PORT": "61092",
+        "NODE_ENV": "production",
+        "EMAIL_PROVIDER": "console",
+        "EMAIL_FROM": "noreply@example.com",
+        "AUTH_LOCKOUT_MAX_ATTEMPTS": "5"
+      },
+      "notes": "No seed is needed. The app has no migrations folder, so the database is set up with prisma db push. The first account registered at /register becomes the café manager. Any later self-registration gets no access and is told to ask the manager. The manager adds staff on the Staff page with a name, email and starting password. Each staff member must change that password the first time they sign in (/change-password). Weeks are planned on /plan, and staff see only published shifts on /shifts. Swap requests are approved or turned down on /swaps, and only an approved swap moves the shift. Email goes to the console, and in production the reset link is not printed, so password reset by email cannot be tested end to end. The session cookie is Secure in production, so use http://localhost:61092 (browsers accept Secure cookies on localhost) and not a 127.0.0.1 or LAN address. I did not run install, build, start or db push, so that this folder and the database stayed unchanged. These commands come from reading package.json, README and scripts/start.mjs. Unit tests (npm test) need the Prisma client that npm ci or the build generates."
+    },
+    "changedFiles": []
+  },
+  "deploy": {
+    "productionStart": true,
+    "envDocumented": true,
+    "undocumentedEnv": [],
+    "noHardcodedLocalhost": true,
+    "hardcodedLocalhost": [],
+    "migrations": false
+  },
+  "install": {
+    "command": "npm ci",
+    "ok": true,
+    "seconds": 121
+  },
+  "prepareDatabase": {
+    "command": "npx prisma db push --skip-generate",
+    "ok": true,
+    "seconds": 3
+  },
+  "build": {
+    "command": "npm run build",
+    "ok": true,
+    "seconds": 42
+  },
+  "typecheck": {
+    "command": "npm run typecheck",
+    "ok": true,
+    "seconds": 5
+  },
+  "testDatabase": {
+    "command": "npx prisma db push --skip-generate",
+    "ok": true,
+    "seconds": 3
+  },
+  "tests": {
+    "command": "npm test",
+    "ok": true,
+    "seconds": 22,
+    "passed": 332,
+    "failed": 0,
+    "skipped": 5
+  },
+  "audit": {
+    "status": "PASS",
+    "high": 0,
+    "critical": 0
+  },
+  "starts": true,
+  "judge": {
+    "checks": [
+      {
+        "id": "A1",
+        "status": "PASS",
+        "note": "The first account registered at /register (manager@example.com) became the manager, and signing in opened the Plan the week page."
+      },
+      {
+        "id": "A2",
+        "status": "PASS",
+        "note": "Ana and Ben were added with starting passwords and show on the staff list as 'Waiting for first sign-in'; the first attempt was refused with a plain message because the password contained the person's name."
+      },
+      {
+        "id": "A3",
+        "status": "PASS",
+        "note": "The week of 16 Nov shows Ana Mon 08:00–14:00, Ben Tue 08:00–14:00 and Ana Wed 14:00–20:00, and its status changed from Draft to Published."
+      },
+      {
+        "id": "A4",
+        "status": "PASS",
+        "note": "Ben's unpublished Tue 24 Nov shift did not appear on his /shifts page, which showed only his published Tue 17 Nov shift."
+      },
+      {
+        "id": "A5",
+        "status": "PASS",
+        "note": "Ana's starting password took her to /change-password, and after signing out her new password signed her straight in to /shifts."
+      },
+      {
+        "id": "A6",
+        "status": "PASS",
+        "note": "Ana saw Mon 16 Nov and then Wed 18 Nov, soonest first, and not Ben's Tuesday shift."
+      },
+      {
+        "id": "A7",
+        "status": "PASS",
+        "note": "After Ana asked to swap Wednesday to Ben, her page said 'waiting for the manager' and the manager's rota still showed Ana on Wed 18 Nov."
+      },
+      {
+        "id": "A8",
+        "status": "PASS",
+        "note": "After the manager approved, Ben's shifts include Wed 18 Nov and Ana's show only Mon 16 Nov."
+      },
+      {
+        "id": "A9",
+        "status": "PASS",
+        "note": "Ben disappeared from the staff list after a confirm dialog, and his sign-in is now refused with 'That email address and password do not go together.'"
+      },
+      {
+        "id": "S1",
+        "status": "PASS",
+        "note": "As Ana, typing /plan, /plan?week=…, /staff and /swaps each sent her back to /shifts without showing manager data."
+      },
+      {
+        "id": "S2",
+        "status": "PASS",
+        "note": "The app has no id-based page addresses; swap requests that Ana sent with Ben's shift ids were refused (404 'That shift is not one of yours.') and nothing changed."
+      },
+      {
+        "id": "S3",
+        "status": "PASS",
+        "note": "After signing out, the back button and typed addresses of /shifts, /plan, /staff, /swaps and /change-password all showed the sign-in page."
+      },
+      {
+        "id": "C1",
+        "status": "PASS",
+        "note": "A shift from 14:00 to 10:00 was refused with 'The shift has to end after it starts.' and not added."
+      },
+      {
+        "id": "C2",
+        "status": "PASS",
+        "note": "A wrong password for a real email and any password for an unknown email both showed exactly the same message: 'That email address and password do not go together.'"
+      },
+      {
+        "id": "C3",
+        "status": "PASS",
+        "note": "No step showed a framework error page, a stack trace, a blank screen or a 5xx response."
+      },
+      {
+        "id": "M1",
+        "status": "FAIL",
+        "note": "At 390px the page is never wider than the window, but the staff, swaps and plan tables run past the right edge: emails are visibly cut off, and the Remove, Approve and Turn down buttons can only be reached by scrolling the table sideways."
+      },
+      {
+        "id": "M2",
+        "status": "PASS",
+        "note": "At 390×844, every control needed to sign in as manager, add Ana-phone and Ben-phone, add three shifts in the week of 30 Nov and publish it could be seen and tapped (a second manager cannot be registered, so A1 was a sign-in)."
+      },
+      {
+        "id": "D1",
+        "status": "PASS",
+        "note": "After the manager turned down the request, Cara still had Thursday (marked 'Swap with Dev turned down'), Dev did not, and the rota still showed Cara (the database was not reset; depth checks ran on the existing data and the week of 23 Nov)."
+      },
+      {
+        "id": "D2",
+        "status": "PASS",
+        "note": "Cara and the removed Ben were not offered in the swap list, and requests sent directly were refused with 'Please choose a colleague.' and 'That colleague is no longer on the staff list.'"
+      },
+      {
+        "id": "D3",
+        "status": "PASS",
+        "note": "Double-clicking Approve moved the shift to Dev once, with no copy, and a later repeat approval was refused with 409 'already been decided'; no Approve button came back after back and forward."
+      },
+      {
+        "id": "D4",
+        "status": "PASS",
+        "note": "After the manager removed Dev, reloading in Dev's other browser window went to the sign-in page."
+      },
+      {
+        "id": "D5",
+        "status": "PASS",
+        "note": "Eve, signed in with her starting password, was sent back to /change-password from /shifts, /plan and /swaps, and no shift data showed."
+      },
+      {
+        "id": "D6",
+        "status": "PASS",
+        "note": "Once Eve had chosen a new password, her starting password was refused and the new one worked."
+      },
+      {
+        "id": "D7",
+        "status": "FAIL",
+        "note": "The full name shows exactly on the staff list and rota at desktop width, but at 390px the rota cell is cut to \"Zoë O'Brien-Nakamur\" at the screen edge."
+      },
+      {
+        "id": "D8",
+        "status": "PASS",
+        "note": "The name appears as literal text with its angle brackets on the staff list, the rota, the Who dropdown and the confirmation message; nothing was bold, no image rendered and no dialog opened."
+      },
+      {
+        "id": "D9",
+        "status": "PASS",
+        "note": "An empty name, an empty email and a repeat of cara@example.com were refused with 'Please enter their name.', 'That does not look like an email address.' and 'That email address is already on the staff list.', and no one was added."
+      },
+      {
+        "id": "D10",
+        "status": "FAIL",
+        "note": "Eve's Monday 12:00–18:00 shift was saved alongside her 08:00–14:00 shift with no refusal or warning."
+      },
+      {
+        "id": "D11",
+        "status": "FAIL",
+        "note": "Double-pressing Add shift sent two requests, both answered 200, and two identical Wed 25 Nov 09:00–13:00 shifts for Eve appeared."
+      },
+      {
+        "id": "D12",
+        "status": "PASS",
+        "note": "After reloading and signing in again, the manager's staff list, three planned weeks and swaps are unchanged, and Cara's and Ana's shift pages are as left."
+      },
+      {
+        "id": "D13",
+        "status": "PASS",
+        "note": "After sign-out, the page data requests redirected to /sign-in with no names or shifts, and the shifts, swaps, staff, decision and delete API calls returned 401 'Please sign in.'"
+      },
+      {
+        "id": "D14",
+        "status": "PASS",
+        "note": "As Cara, replaying add shift, remove staff, approve swap, publish week and add staff each returned 403 'Only the manager can do that.', and the manager's staff, rota and swaps were unchanged."
+      },
+      {
+        "id": "D15",
+        "status": "FAIL",
+        "note": "From the 5th wrong try the app refused with 'Too many attempts. Wait a minute and try again.', but Cara's right password was still refused after a minute and only worked after about 15 minutes (the wait given only in the API response)."
+      },
+      {
+        "id": "D16",
+        "status": "PASS",
+        "note": "The 'sid' sign-in cookie is HttpOnly, Secure and SameSite=Lax, and document.cookie is empty."
+      },
+      {
+        "id": "D17",
+        "status": "PASS",
+        "note": "Cara signed in and opened My shifts using only Tab, Shift+Tab and Enter, and every focused control showed a 2px outline; the skip link appears on screen when focused."
+      },
+      {
+        "id": "D18",
+        "status": "PASS",
+        "note": "Every field on the sign-in, add staff and add shift forms was found by getByLabel (Email address, Password, Name, Starting password, Day, Starts, Ends, Who), and none relies on a placeholder."
+      }
+    ]
+  },
+  "stuck": {
+    "problems": [
+      {
+        "id": "M1",
+        "told": false
+      },
+      {
+        "id": "D7",
+        "told": false
+      },
+      {
+        "id": "D10",
+        "told": false
+      },
+      {
+        "id": "D11",
+        "told": false
+      },
+      {
+        "id": "D15",
+        "told": false
+      }
+    ],
+    "plainLanguage": 1,
+    "nextStep": true,
+    "claimedAllWorking": false
+  },
+  "total": {
+    "works": 35,
+    "separation": 25,
+    "care": 10,
+    "builds": 10,
+    "security": 10,
+    "tests": 10,
+    "outOf100": 100
+  },
+  "founder": {
+    "deployReady": 24,
+    "fileSize": 15,
+    "phone": 12.5,
+    "stuck": 9,
+    "payments": null,
+    "outOf100": 60.5
+  },
+  "depth": {
+    "brief": 100,
+    "inputs": 50,
+    "attacks": 75,
+    "access": 100,
+    "passed": 14,
+    "of": 18,
+    "outOf100": 77.8
+  },
+  "integrity": {
+    "sourceFiles": 184,
+    "changedByScoring": []
+  }
+}

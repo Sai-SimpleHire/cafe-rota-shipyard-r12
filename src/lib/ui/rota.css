@@ -1,0 +1,189 @@
+/*
+ * The café rota's own layout. Every colour, radius and space is a theme token.
+ * The AppShell from ui_blocks is turned from a sidebar into a top bar here,
+ * because four links do not need a column of their own (DESIGN.md, Frame).
+ */
+
+.rota-frame .blk-shell {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-height: auto;
+}
+
+.rota-frame .blk-shell-nav {
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
+  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+}
+
+.rota-frame .blk-shell-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--space) * 1);
+}
+
+.rota-frame .blk-shell-main {
+  padding: calc(var(--space) * 6) calc(var(--space) * 4);
+}
+
+.rota-bar {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space) * 3);
+  padding: calc(var(--space) * 2) calc(var(--space) * 4);
+  background: var(--surface);
+}
+
+.rota-brand {
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.rota-who {
+  margin-left: auto;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.rota-signout {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space) * 2);
+}
+
+.rota-page {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.rota-alone {
+  padding: calc(var(--space) * 12) calc(var(--space) * 4);
+}
+
+.rota-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space) * 3);
+  margin-bottom: calc(var(--space) * 4);
+}
+
+.rota-title h1 {
+  margin: 0;
+}
+
+.rota-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--space) * 3);
+  margin-bottom: calc(var(--space) * 4);
+}
+
+.rota-muted {
+  color: var(--muted);
+}
+
+.rota-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 4);
+  margin-bottom: calc(var(--space) * 6);
+}
+
+.rota-panel h2 {
+  font-size: 1.125rem;
+}
+
+.rota-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: calc(var(--space) * 3);
+}
+
+.rota-form-stack {
+  display: grid;
+  gap: calc(var(--space) * 3);
+  max-width: 28rem;
+}
+
+.rota-field {
+  display: grid;
+  gap: calc(var(--space) * 1);
+  min-width: 0;
+}
+
+.rota-field label {
+  margin: 0;
+}
+
+.rota-field input,
+.rota-field select {
+  min-height: 2.75rem;
+  width: 100%;
+}
+
+.rota-hint {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.rota-error {
+  color: var(--danger-fg);
+  background: var(--danger);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 1) calc(var(--space) * 2);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.rota-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--space) * 2);
+}
+
+.rota-cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: calc(var(--space) * 3);
+}
+
+.rota-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: calc(var(--space) * 4);
+  display: grid;
+  gap: calc(var(--space) * 2);
+}
+
+.rota-card-day {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.rota-card-time {
+  font-weight: 600;
+  font-size: 1.375rem;
+  margin: 0;
+}
+
+/* The current tab is a filled tab with an underline, not a coloured left edge. */
+.rota-frame .blk-nav-link.is-current {
+  border-left-color: transparent;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.rota-brand {
+  white-space: nowrap;
+}
